@@ -10,25 +10,24 @@ class MnistNet(nn.Module):
             nn.ReLU(),
             nn.LocalResponseNorm(size=5, alpha=0.0001, beta=0.75, k=2),  # section 3.3
             nn.MaxPool2d(kernel_size=3, stride=2),  # (b x 96 x 7 x 7)
-
-            # nn.Conv2d(96, 256, 5, padding=2),  # (b x 256 x 27 x 27)
+            nn.Conv2d(96, 256, 5, padding=2),  # (b x 96 x 7 x 7)
+            nn.ReLU(),
+            nn.LocalResponseNorm(size=5, alpha=0.0001, beta=0.75, k=2),
+            nn.MaxPool2d(kernel_size=3, stride=2),  # (b x 96 x 3 x 3)
+            nn.Conv2d(256, 384, 3, padding=1),  # (b x 96 x 3 x 3)
+            nn.ReLU(),
+            nn.Conv2d(384, 384, 3, padding=1),  # (b x 96 x 3 x 3)
+            nn.ReLU(),
+            nn.Conv2d(384, 256, 3, padding=1),  # (b x 96 x 3 x 3)
             # nn.ReLU(),
-            # nn.LocalResponseNorm(size=5, alpha=0.0001, beta=0.75, k=2),
-            # nn.MaxPool2d(kernel_size=3, stride=2),  # (b x 256 x 13 x 13)
-            # nn.Conv2d(256, 384, 3, padding=1),  # (b x 384 x 13 x 13)
-            # nn.ReLU(),
-            # nn.Conv2d(384, 384, 3, padding=1),  # (b x 384 x 13 x 13)
-            # nn.ReLU(),
-            # nn.Conv2d(384, 256, 3, padding=1),  # (b x 256 x 13 x 13)
-            # nn.ReLU(),
-            # nn.MaxPool2d(kernel_size=3, stride=2),  # (b x 256 x 6 x 6)
+            # nn.MaxPool2d(kernel_size=3, stride=2),  # (b x 96 x 1 x 1)
         )
 
 
         # classifier is just a name for linear layers
         self.classifier = nn.Sequential(
             nn.Dropout(p=0.5, inplace=False),
-            nn.Linear(in_features=1536, out_features=4096),
+            nn.Linear(in_features=256, out_features=4096),
             nn.ReLU(),
             nn.Dropout(p=0.5, inplace=False),
             nn.Linear(in_features=4096, out_features=4096),
