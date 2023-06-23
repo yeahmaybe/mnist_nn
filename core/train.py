@@ -304,7 +304,7 @@ for i in range(0, 20):
     plt.imshow(X_test_pixel[i].reshape(28, 28), cmap='Greys')
     plt.title("%d, pred: %d" % (y_test_pixel[i], predict_results[i]))
 #%%
-torch.save(mnistnet, 'mnistnet.pkl')
+torch.save(mnistnet, '../mnistnet.pkl')
 #%%
 mdl = torch.load('mnistnet.pkl')
 mdl
